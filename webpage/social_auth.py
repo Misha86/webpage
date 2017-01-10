@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 # Модель пользователя. Здесь стандартная.
 SOCIAL_AUTH_USER_MODEL = 'auth.User'
 
-
 AUTHENTICATION_BACKENDS = (
     'social.backends.vk.VKOAuth2',
     'social.backends.facebook.FacebookOAuth2',
