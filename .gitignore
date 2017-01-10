@@ -1,0 +1,5 @@
+venv/
+*.pyc
+static_root/
+.env
+.idea

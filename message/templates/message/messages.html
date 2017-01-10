@@ -1,0 +1,57 @@
+{% extends "base.html" %}{% load staticfiles %}{% load humanize %}
+
+{% block title %}|{{ title }}{% endblock %}
+
+
+{% block style %}
+
+    <link href="{% static 'css/message.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+
+{% block scripts %}
+
+    <script src="{% static 'js/message.js' %}"></script>
+    <script src="{% static 'js/comment.js' %}"></script>
+
+    <script>
+
+        $(function(){
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+    </script>
+
+{% endblock scripts %}
+
+
+{% block content %}
+
+    <a href="{% url 'message:enter' %}">
+        {% if request.user.is_authenticated %}
+            <h3>Привіт, {{ user.get_full_name }}!</h3>
+            <strong><a href="{% url 'logout' %}?next={{ request.path }}" style="color: red; font-size: 16px">(вийти)</a></strong>
+        {% else %}
+            <h3 class="text-center">Щоб залишити повідомлення або коментар зайдіть на сайт!</h3>
+        {% endif %}
+    </a>
+
+    <div class="row">
+        <div id="create-message" class="col-md-5">
+
+            {% include "partial_message_form.html" %}
+
+            <hr/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="message-list">
+
+            {% include "partial_messages_list.html" %}
+
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+.jumbotron {
+    margin-top: 20%;
+    text-align: center;
+}
+
+.face {
+    border-radius: 4px;
+    display:inline-block;
+    vertical-align:bottom;
+    width:24px;
+    height:24px;
+    margin:7px 25px 0px 0;
+    padding:0;
+    outline:none;
+    background:url(/static/img/icons.png) -0px 0 no-repeat;
+
+}
+
+.goog {
+    border-radius: 4px;
+    display:inline-block;
+    vertical-align:bottom;
+    width:24px;
+    height:24px;
+    margin:7px 25px 0px 0;
+    padding:0;
+    outline:none;
+    background:url(/static/img/icons.png) -24px 0 no-repeat;
+
+}
+
+.inl {
+    border-radius: 4px;
+    display:inline-block;
+    vertical-align:bottom;
+    width:24px;
+    height:24px;
+    margin:7px 25px 0px 0;
+    padding:0;
+    outline:none;
+    background:url(/static/img/icons.png) -48px 0 no-repeat
+
+}
+
+.odn {
+    border-radius: 4px;
+    display:inline-block;
+    vertical-align:bottom;
+    width:24px;
+    height:24px;
+    margin:7px 25px 0px 0;
+    padding:0
+    ;outline:none;
+    background:url(/static/img/icons.png) -72px 0 no-repeat
+
+}
+
+.vkon {
+    border-radius: 4px;
+    display:inline-block;
+    vertical-align:bottom;
+    width:24px;
+    height:24px;
+    margin:7px 25px 0px 0;
+    padding:0;
+    outline:none;
+    background:url(/static/img/icons.png) -96px 0 no-repeat
+}
+
+ul.errorlist {
+    color: rgba(226, 34, 0, 0.8);
+    list-style: none;
+    font-style: italic;
+    font-weight: bold;
+    padding-left: 5px;
+    font-family: "Consolas", "Menlo", "Courier", monospace;
+    font-size: 18px;
+    text-shadow: 1px 1px 0px #979797;
+}

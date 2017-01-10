@@ -1,0 +1,12 @@
+#create-message {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.message, .comment {
+    cursor: pointer;
+}
+
+.caret-toggle {
+    transform: rotate(-90deg);
+}

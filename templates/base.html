@@ -1,0 +1,109 @@
+{% load staticfiles %}{% load humanize %}
+<!DOCTYPE html>
+<html>
+<head lang="en" xmlns="http://www.w3.org/1999/html">
+    <meta charset="UTF-8">
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>WEB{% block title %}{% endblock %}</title>
+
+    <!-- My css -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+
+    <!-- Jquery -->
+    <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
+
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/png">
+
+    <script type="text/javascript" src="{% static 'js/jquery-2.1.4.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-ui.js' %}"></script>
+
+    {% block style %}{% endblock %}
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="{% static 'js/html5shiv.min.js' %}"></script>
+    <script src="{% static 'js/respond.min.js' %}"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+
+<div class="container">
+
+    {% block content %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="jumbotron">
+
+                    {% if request.user.is_authenticated %}
+
+                        <h3><strong>Користувач:</strong> {{ user.get_full_name }} (<a href="{% url 'logout' %}?next={{ request.path }}">вийти</a>)</h3>
+{#                        <form method="post" action="{% url 'social:disconnect' 'facebook' %}">#}
+{#                            {% csrf_token %}#}
+{#                            <button type="submit">Вийти з facebook</button>#}
+{#                        </form>#}
+{##}
+{#                        <form method="post" action="{% url 'social:disconnect' 'vk-oauth2' %}">#}
+{#                            {% csrf_token %}#}
+{#                            <button type="submit">Вийти з vk</button>#}
+{#                        </form>#}
+
+                    {% else %}
+
+                        <h3>Вхід через соціальні мережі</h3>
+
+                        <div class="text-center">
+
+                            <a rel="nofollow" class="face" href="{% url 'social:begin' 'facebook' %}" title="Поліщук Михайло в Facebook"></a>
+
+                            <a rel="nofollow" class="vkon" href="{% url 'social:begin' 'vk-oauth2'%}" title="Поліщук Михайло в ВКонтакте"></a>
+
+                        </div>
+
+                    {% endif %}
+
+                    <h3><a href="{% url 'message:list' %}">Список повідомлень</a></h3>
+
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+
+</div>
+
+<script src="{% static 'js/bootstrap.js' %}"></script>
+{% block scripts %}{% endblock scripts %}
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

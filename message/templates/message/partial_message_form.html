@@ -1,0 +1,7 @@
+
+
+        <form  id="form-massage" method="POST" action="{% url 'message:create' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p }}
+            <input class="btn btn-primary" type="submit" value="відправити"/>
+        </form>
