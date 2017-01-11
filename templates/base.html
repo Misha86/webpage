@@ -38,42 +38,44 @@
 
     {% block content %}
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron">
 
-                    {% if request.user.is_authenticated %}
+                {% if request.user.is_authenticated %}
 
-                        <h3><strong>Користувач:</strong> {{ user.get_full_name }} (<a href="{% url 'logout' %}?next={{ request.path }}">вийти</a>)</h3>
-{#                        <form method="post" action="{% url 'social:disconnect' 'facebook' %}">#}
-{#                            {% csrf_token %}#}
-{#                            <button type="submit">Вийти з facebook</button>#}
-{#                        </form>#}
-{##}
-{#                        <form method="post" action="{% url 'social:disconnect' 'vk-oauth2' %}">#}
-{#                            {% csrf_token %}#}
-{#                            <button type="submit">Вийти з vk</button>#}
-{#                        </form>#}
+                <h3><strong>Користувач:</strong> {{ user.get_full_name }} (<a href="{% url 'logout' %}?next={{ request.path }}">вийти</a>)</h3>
+                {#                        <form method="post" action="{% url 'social:disconnect' 'facebook' %}">#}
+                {#                            {% csrf_token %}#}
+                {#                            <button type="submit">Вийти з facebook</button>#}
+                {#                        </form>#}
+                {##}
+                {#                        <form method="post" action="{% url 'social:disconnect' 'vk-oauth2' %}">#}
+                {#                            {% csrf_token %}#}
+                {#                            <button type="submit">Вийти з vk</button>#}
+                {#                        </form>#}
 
-                    {% else %}
+                {% else %}
 
-                        <h3>Вхід через соціальні мережі</h3>
+                <h3>Вхід через соціальні мережі</h3>
 
-                        <div class="text-center">
+                <div class="text-center">
 
-                            <a rel="nofollow" class="face" href="{% url 'social:begin' 'facebook' %}" title="Поліщук Михайло в Facebook"></a>
+                    <a rel="nofollow" class="face" href="{% url 'social:begin' 'facebook' %}" title="Поліщук Михайло в Facebook"></a>
 
-                            <a rel="nofollow" class="vkon" href="{% url 'social:begin' 'vk-oauth2'%}" title="Поліщук Михайло в ВКонтакте"></a>
+                    <a rel="nofollow" class="vkon" href="{% url 'social:begin' 'vk-oauth2'%}" title="Поліщук Михайло в ВКонтакте"></a>
 
-                        </div>
-
-                    {% endif %}
-
-                    <h3><a href="{% url 'message:list' %}">Список повідомлень</a></h3>
+                    <a rel="nofollow" class="odn" href="{% url 'social:begin' 'odnoklassniki-oauth2'%}" title="Одноклассники"></a>
 
                 </div>
+
+                {% endif %}
+
+                <h3><a href="{% url 'message:list' %}">Список повідомлень</a></h3>
+
             </div>
         </div>
+    </div>
 
     {% endblock %}
 

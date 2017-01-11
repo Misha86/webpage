@@ -6,6 +6,7 @@ SOCIAL_AUTH_USER_MODEL = 'auth.User'
 AUTHENTICATION_BACKENDS = (
     'social.backends.vk.VKOAuth2',
     'social.backends.facebook.FacebookOAuth2',
+    'social.backends.odnoklassniki.OdnoklassnikiOAuth2',
 
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -38,6 +39,13 @@ SOCIAL_AUTH_VK_OAUTH2_EXTRA_DATA = ['photo_200_orig']
 # Ключи
 SOCIAL_AUTH_VK_OAUTH2_KEY = '5806264'
 SOCIAL_AUTH_VK_OAUTH2_SECRET = 'JS3mCZ17ACGpRR7dZJ1Z'
+
+
+# Odnoklassniki #
+SOCIAL_AUTH_Odnoklassniki_OAUTH2_SCOPE = ['email']
+# Ключи
+SOCIAL_AUTH_Odnoklassniki_OAUTH2_KEY = '1249422080'
+SOCIAL_AUTH_Odnoklassniki_OAUTH2_SECRET = '2BD0DB4D3870B0144D39DF44'
 
 
 # Проверка url перенаправления
