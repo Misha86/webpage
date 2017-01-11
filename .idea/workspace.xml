@@ -43,8 +43,13 @@
       <file leaf-file-name="social_auth.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webpage/social_auth.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state vertical-scroll-proportion="0.46495727" vertical-offset="510" max-vertical-offset="1139">
               <caret line="46" column="9" selection-start-line="46" selection-start-column="9" selection-end-line="46" selection-end-column="10" />
+=======
+            <state vertical-scroll-proportion="0.75555557" vertical-offset="357" max-vertical-offset="1139">
+              <caret line="47" column="71" selection-start-line="47" selection-start-column="47" selection-end-line="47" selection-end-column="71" />
+>>>>>>> 87d0b8cdd1a9ed403451f70cc11ec1e495ce8c76
               <folding />
             </state>
           </provider>
@@ -145,7 +150,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -208,6 +212,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -296,7 +301,11 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17776097" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17549168" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> 87d0b8cdd1a9ed403451f70cc11ec1e495ce8c76
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -460,6 +469,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webpage/social_auth.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="100">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
@@ -516,6 +526,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webpage/social_auth.py">
       <provider selected="true" editor-type-id="text-editor">
+=======
+>>>>>>> 87d0b8cdd1a9ed403451f70cc11ec1e495ce8c76
         <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="1122">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding />
@@ -701,8 +713,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/webpage/social_auth.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.46495727" vertical-offset="510" max-vertical-offset="1139">
           <caret line="46" column="9" selection-start-line="46" selection-start-column="9" selection-end-line="46" selection-end-column="10" />
+=======
+        <state vertical-scroll-proportion="0.75555557" vertical-offset="357" max-vertical-offset="1139">
+          <caret line="47" column="71" selection-start-line="47" selection-start-column="47" selection-end-line="47" selection-end-column="71" />
+>>>>>>> 87d0b8cdd1a9ed403451f70cc11ec1e495ce8c76
           <folding />
         </state>
       </provider>
