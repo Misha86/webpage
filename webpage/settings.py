@@ -30,6 +30,7 @@ DEBUG = False
 
 # DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
 
+
 ADMINS = (('Misha86', 'mishaelitzem2@rambler.ru'),)
 
 ALLOWED_HOSTS = ["*"]
