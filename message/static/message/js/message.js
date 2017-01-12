@@ -62,7 +62,6 @@ $(function () {
             beforeSend: function () {
                 $("#modal-comment").modal("show");
             },
-
             success: function (data) {
                 console.log(data);
                 $(".modal-content").html(data.html_form)
