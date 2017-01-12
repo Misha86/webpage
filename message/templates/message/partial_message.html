@@ -16,7 +16,7 @@
             <strong>Кількість коментарів: </strong>
             <em>  {{ message.comments.count }}</em>
 
-            {% if request.user.is_authenticated and not request.user.is_superuser %}
+            {% if not request.user.is_superuser %}
                 <strong> | Користувач: </strong>
                 <em>  {{ message.user.get_full_name }}</em>
             {% endif %}
