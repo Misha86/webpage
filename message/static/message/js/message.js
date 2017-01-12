@@ -138,6 +138,32 @@ $(function () {
         });
     });
 
+    // ajax pagination
+    $("#pages").on('click', ".pagination li a", function(event){
+        event.preventDefault();
+        var page = $(this);
+        console.log(page.text())
+        console.log(page.attr("href"))
+        $.ajax({
+            async: true,
+            url: '/list/' + page.attr("href"),
+            type: 'get',
+            //data: {
+            //    page : page.text()
+            //},
+            dataType: 'json',
+
+            success: function (data) {
+                console.log(data)
+                console.log($("#message-list"))
+                $("#message-list").html(data.html_messages)
+                $("#pages").html(data.html_page)
+            },
+
+            error: error
+        });
+    });
+
     var successForCreate = function (data) {
         $("#form-massage").html(data.html_form)
         if (data.form_is_valid) {

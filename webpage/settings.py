@@ -26,7 +26,7 @@ with open('webpage/secret_key.txt') as f:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 ADMINS = (('Misha86', 'mishaelitzem2@rambler.ru'),)
 

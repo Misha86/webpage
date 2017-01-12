@@ -4,6 +4,7 @@ from message.forms import MessageForm
 from message.models import Message
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def enter_page(request):
@@ -12,12 +13,38 @@ def enter_page(request):
 
 def messages_list(request):
     form = MessageForm()
-    messages = Message.objects.all().order_by('-date')
+    messages_list = Message.objects.all().order_by('-date')
+    data = dict()
+    paginator = Paginator(messages_list, 2)
+    page = request.GET.get('page')
+    try:
+        messages = paginator.page(page)
+        # print(articles.page_range)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        messages = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        messages = paginator.page(paginator.num_pages)
+
     context = {
         'title': 'Повідомлення',
         'form': form,
         'messages': messages,
+        'paginator': paginator,
         }
+
+    if request.is_ajax():
+        data['html_messages'] = render_to_string('partial_messages_list.html',
+                                                 {'messages': messages},
+                                                 request=request)
+
+        data['html_page'] = render_to_string('partial_massage_pages.html',
+                                             {'messages': messages,
+                                              'paginator': paginator},
+                                             request=request)
+        return JsonResponse(data)
+
     return render(request, 'messages.html', context)
 
 
