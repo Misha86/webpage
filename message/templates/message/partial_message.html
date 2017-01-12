@@ -15,8 +15,14 @@
         <p>
             <strong>Кількість коментарів: </strong>
             <em>  {{ message.comments.count }}</em>
-            <strong> | Користувач: </strong>
-            <em>  {{ message.user.get_full_name }}</em>
+
+            {% if request.user.is_authenticated and not request.user.is_superuser %}
+                <strong> | Користувач: </strong>
+                <em>  {{ message.user.get_full_name }}</em>
+            {% endif %}
+
+            <strong> | Дата створення: </strong>
+            <em>  {{ message.date }}</em>
             <strong> | Дата оновлення: </strong>
             <em>  {{ message.update }}</em>
         </p>

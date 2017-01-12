@@ -30,7 +30,7 @@
 
     <a href="{% url 'message:enter' %}">
         {% if request.user.is_authenticated %}
-            <h3>Привіт, {{ user.get_full_name }}!</h3>
+            <h3>Привіт, {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %}!</h3>
             <strong><a href="{% url 'logout' %}?next={{ request.path }}" style="color: red; font-size: 16px">(вийти)</a></strong>
         {% else %}
             <h3 class="text-center">Щоб залишити повідомлення або коментар зайдіть на сайт!</h3>

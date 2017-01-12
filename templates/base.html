@@ -44,7 +44,7 @@
 
                 {% if request.user.is_authenticated %}
 
-                <h3><strong>Користувач:</strong> {{ user.get_full_name }} (<a href="{% url 'logout' %}?next={{ request.path }}">вийти</a>)</h3>
+                <h3><strong>Користувач:</strong> {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %} (<a href="{% url 'logout' %}?next={{ request.path }}">вийти</a>)</h3>
                 {#                        <form method="post" action="{% url 'social:disconnect' 'facebook' %}">#}
                 {#                            {% csrf_token %}#}
                 {#                            <button type="submit">Вийти з facebook</button>#}
