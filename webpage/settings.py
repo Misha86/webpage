@@ -30,9 +30,15 @@ with open('webpage/secret_key.txt') as f:
 
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = ["comments-webdev.herokuapp.com"]
+# DEBUG = True
+
+# DEBUG = True if os.environ.get('DJANGO_DEBUG', None) is None else False
 
 ADMINS = (('Misha86', 'mishaelitzem2@rambler.ru'),)
+
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+
+ALLOWED_HOSTS = ["comments-webdev.herokuapp.com"]
 
 # Application definition
 
