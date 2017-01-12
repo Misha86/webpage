@@ -7,6 +7,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.vk.VKOAuth2',
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.odnoklassniki.OdnoklassnikiOAuth2',
+    'social.backends.linkedin.LinkedinOAuth2',
 
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -47,6 +48,22 @@ SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_SCOPE = ['email']
 SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_KEY = '1249422080'
 SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_SECRET = '2BD0DB4D3870B0144D39DF44'
 SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_PUBLIC_NAME = 'CBAMKJHLEBABABABA'
+
+# LINKEDIN #
+# Add email to requested authorizations.
+SOCIAL_AUTH_LINKEDIN_SCOPE = ['r_basicprofile', 'r_emailaddress']
+# Add the fields so they will be requested from linkedin.
+SOCIAL_AUTH_LINKEDIN_FIELD_SELECTORS = ['email-address', 'headline', 'industry']
+# Arrange to add the fields to UserSocialAuth.extra_data
+SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
+                                   ('firstName', 'first_name'),
+                                   ('lastName', 'last_name'),
+                                   ('emailAddress', 'email_address'),
+                                   ('headline', 'headline'),
+                                   ('industry', 'industry')]
+# Ключи
+SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = '86xh8zkjixq1gl'
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = 'udJ4GuXKW8NUpQ2Y'
 
 
 # Проверка url перенаправления
