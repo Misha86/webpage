@@ -16,9 +16,11 @@
             <strong>Кількість коментарів: </strong>
             <em>  {{ message.comments.count }}</em>
 
-            {% if not request.user.is_superuser %}
-                <strong> | Користувач: </strong>
-                <em>  {{ message.user.get_full_name }}</em>
+            <strong> | Користувач: </strong>
+            {% if not message.user.is_superuser %}
+                <em>{{ message.user.get_full_name }}</em>
+            {% else %}
+                <strong><em>Admin</em></strong>
             {% endif %}
 
             <strong> | Дата створення: </strong>

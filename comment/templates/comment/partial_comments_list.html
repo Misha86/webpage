@@ -13,7 +13,12 @@
 
         <p><strong>Створений:</strong> {{ comment.date|timesince }} тому |
             <strong>Кількість коментарів:</strong> <em>{{ comment.children.count }} </em> |
-            <strong>Користувач:</strong> {{ comment.user.get_full_name }}
+           <strong>Користувач: </strong>
+            {% if not comment.user.is_superuser %}
+                {{ comment.user.get_full_name }}
+            {% else %}
+                <strong>Admin</strong>
+            {% endif %}
         </p>
 
     </div>

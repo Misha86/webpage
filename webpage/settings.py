@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 from .social_auth import *
+from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,18 +22,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open('webpage/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
+
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ADMINS = (('Misha86', 'mishaelitzem2@rambler.ru'),)
 
-# ALLOWED_HOSTS = ["*"]
-
 ALLOWED_HOSTS = [os.environ.get('DJANGO_HOSTS', "*")]
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=['.herokuapp.com'], cast=Csv())
 
 # Application definition
 
@@ -95,19 +96,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'webpage.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-from .db_password import db_password
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',   # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'webpage',                                     # Or path to database file if using sqlite3.
-        'USER': 'postgres',
-        'PASSWORD': db_password,
-        'HOST': 'localhost',    # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',             # Set to empty string for default.
+        'NAME': config('DB_NAME'),                                     # Or path to database file if using sqlite3.
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),                           # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',                                          # Set to empty string for default.
     }
 }
 
@@ -146,7 +145,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
@@ -176,9 +174,9 @@ import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
+
 LOG_REQUEST_ID_HEADER = 'HTTP_X_REQUEST_ID'
 LOG_REQUESTS = True
-
 
 LOGGING = {
     'version': 1,

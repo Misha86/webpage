@@ -116,3 +116,32 @@ def message_delete(request, id=None):
         data['html_form'] = render_to_string('partial_message_delete.html',
                                              context, request=request)
     return JsonResponse(data)
+
+
+# from social.apps.django_app.default.models import UserSocialAuth
+# def test(request):
+#     user = request.user
+#     social_user = user.social_auth.get(provider='linkedin-oauth2')
+#     return render(request, "test.html", {'content': social_user})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
