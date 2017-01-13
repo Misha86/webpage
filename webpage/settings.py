@@ -31,9 +31,9 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ADMINS = (('Misha86', 'mishaelitzem2@rambler.ru'),)
 
-ALLOWED_HOSTS = [os.environ.get('DJANGO_HOSTS', "*")]
+# ALLOWED_HOSTS = [os.environ.get('DJANGO_HOSTS', "*")]
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=['.herokuapp.com'], cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Application definition
 
