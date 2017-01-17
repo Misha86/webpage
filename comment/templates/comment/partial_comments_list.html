@@ -26,7 +26,11 @@
     <div class="col-md-12">
 
         <p>
-            <button type="button" data-comment-id="{{ comment.id }}" data-id="{{ message.id }}" data-form="{% url "comment:create" %}" class="btn btn-primary js-create-comment">
+            <button type="button" data-comment-id="{{ comment.id }}" data-id="{{ message.id }}"
+                    data-form="{% url "comment:create" %}" class="btn btn-primary js-create-comment"
+                     {% if not request.user.is_authenticated %} data-toggle="tooltip"
+                    data-original-title="Ви не авторизувалися на сайті!"
+                    {% endif %}>
                 <span class="glyphicon glyphicon-plus"></span>
                 коментувати
             </button>

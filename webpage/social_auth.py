@@ -5,6 +5,7 @@ from decouple import config
 # Модель пользователя. Здесь стандартная.
 SOCIAL_AUTH_USER_MODEL = 'auth.User'
 
+import social.pipeline.social_auth
 AUTHENTICATION_BACKENDS = (
     'social.backends.vk.VKOAuth2',
     'social.backends.facebook.FacebookOAuth2',
@@ -13,6 +14,21 @@ AUTHENTICATION_BACKENDS = (
 
     'django.contrib.auth.backends.ModelBackend',
 )
+
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+    # 'webpage.pipeline.user_details'
+)
+
 
 # Facebook #
 # Для фейсбука, мы запрашиваем поля, и указываем локаль, вот таким вот образом.
@@ -36,21 +52,31 @@ SOCIAL_AUTH_VK_OAUTH2_EXTRA_DATA = ['photo_200_orig']
 
 # ODNOKLASSNIKI #
 SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_SCOPE = ['email']
+SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_EXTRA_DATA = ['email', ]
 
 
 # LINKEDIN #
 # Add email to requested authorizations.
-SOCIAL_AUTH_LINKEDIN_SCOPE = ['r_basicprofile', 'r_emailaddress']
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_basicprofile', 'r_emailaddress', 'w_share', 'rw_company_admin']
 # Add the fields so they will be requested from linkedin.
-SOCIAL_AUTH_LINKEDIN_FIELD_SELECTORS = ['email-address', 'headline', 'industry']
-# Arrange to add the fields to UserSocialAuth.extra_data
-SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
-                                   ('firstName', 'first_name'),
-                                   ('lastName', 'last_name'),
-                                   ('emailAddress', 'email_address'),
-                                   ('headline', 'headline'),
-                                   ('industry', 'industry')]
+SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = ['email-address', 'headline', 'industry',   'public-profile-url',
+                                               'picture-url', 'site-standard-profile-request',
+                                               'api-standard-profile-request', 'location']
 
+# Arrange to add the fields to UserSocialAuth.extra_data
+SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA = [('id', 'id'),
+                                          ('firstName', 'first_name'),
+                                          ('lastName', 'last_name'),
+                                          ('emailAddress', 'email_address'),
+                                          ('headline', 'headline'),
+                                          ('industry', 'industry'),
+
+                                          ('pictureUrl', 'picture_url'),
+                                          # ('pictureUrlsOriginal', 'picture-urls::(original)'),
+                                          ('siteStandardProfileRequest', 'site_standard_profile_request'),
+                                          ('publicProfileUrl', 'public_profile_url'),
+                                          ('apiStandardProfileRequest', 'api_standard_profile_request'),
+                                          ('location', 'location')]
 
 # Проверка url перенаправления
 SOCIAL_AUTH_SANITIZE_REDIRECTS = True
@@ -58,6 +84,7 @@ SOCIAL_AUTH_SANITIZE_REDIRECTS = True
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'message:list'
 SOCIAL_AUTH_LOGIN_URL = 'message:enter'
+SOCIAL_AUTH_LOGIN_ERROR_URL = 'message:enter'
 
 
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']

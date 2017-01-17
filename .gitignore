@@ -1,6 +1,7 @@
 .idea
 .idea/
 staticfiles/
+webpage/pipeline.py
 git.txt
 
 

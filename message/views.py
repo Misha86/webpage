@@ -6,12 +6,21 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from social.apps.django_app.default.models import UserSocialAuth
+
 
 def enter_page(request):
     return render(request, 'base.html')
 
 
 def messages_list(request):
+    user = request.user
+
+    try:
+        linkedin_login = user.social_auth.get(provider='linkedin-oauth2')
+    except (UserSocialAuth.DoesNotExist, AttributeError):
+        linkedin_login = None
+
     form = MessageForm()
     messages_list = Message.objects.all().order_by('-date')
     data = dict()
@@ -32,6 +41,7 @@ def messages_list(request):
         'form': form,
         'messages': messages,
         'paginator': paginator,
+        'linkedin_login': linkedin_login,
         }
 
     if request.is_ajax():

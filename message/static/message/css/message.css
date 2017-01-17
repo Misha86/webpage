@@ -1,3 +1,9 @@
+body {
+    min-height: 2000px;
+    padding-top: 100px;
+}
+
+
 #create-message {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -10,5 +16,27 @@
 .caret-toggle {
     transform: rotate(-90deg);
 }
+
+.navbar  {
+    /*height: 90px;*/
+    background-color: #39363b;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+    text-shadow: 4px 2px 7px #212A4B;
+}
+
+.navbar a:hover {
+    color: rgb(0, 255, 22);
+    text-decoration: none;
+    text-shadow:  0 0 0.2em #87F, 0 0 0.2em #8877ff,
+    0 0 0.2em #87F;
+}
+
+
 
 
