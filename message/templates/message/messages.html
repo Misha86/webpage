@@ -30,19 +30,20 @@
 
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
-            {% if request.user.is_authenticated %}
-                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-5">
 
+            {% if request.user.is_authenticated %}
+
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-5">
                     <h3>
                         <a href="{% url 'message:enter' %}" data-toggle="tooltip" data-original-title="Перейти на домашню сторінку" data-placement="right">
                             Привіт, {% if user.get_full_name %}{{ user.get_full_name }}{% else %}{{ user.username }}{% endif %}!
                         </a>
                     </h3>
-
                 </div>
-
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-7">
+
                     {% if linkedin_login %}
+
                         <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
                             <a href="{{ linkedin_login.extra_data.public_profile_url }}">
                                 <img class="img-rounded" style="float: right;" src="{{ linkedin_login.extra_data.picture_url }}"
@@ -59,7 +60,9 @@
                                 </h4>
                             </div>
                         </div>
+
                     {% else %}
+
                         <div class="col-md-6 nav navbar-nav navbar-right">
                             <h4>
                                 <strong>
@@ -67,7 +70,9 @@
                                 </strong>
                             </h4>
                         </div>
+
                     {% endif %}
+
                 </div>
 
             {% else %}
@@ -102,14 +107,14 @@
             </div>
         </div>
 
-        <div class="row">
-            <div id="pages" class="text-center">
-
-                {% include "partial_massage_pages.html" %}
-
-            </div>
-        </div>
     </div>
 
+    <!-- THE MODAL WE WILL BE USING -->
+<div id="modal-comment" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
 
 {% endblock %}

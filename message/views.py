@@ -9,23 +9,15 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from social.apps.django_app.default.models import UserSocialAuth
 
 
-def enter_page(request):
-    return render(request, 'base.html')
+def messages_page(request, data, model, count, context=None):
+    list = model.objects.all().order_by('-date')
+    paginator = Paginator(list, count)
+    del_page = data.get('del_page', '')
+    if del_page:
+        page = del_page
+    else:
+        page = request.GET.get('page')
 
-
-def messages_list(request):
-    user = request.user
-
-    try:
-        linkedin_login = user.social_auth.get(provider='linkedin-oauth2')
-    except (UserSocialAuth.DoesNotExist, AttributeError):
-        linkedin_login = None
-
-    form = MessageForm()
-    messages_list = Message.objects.all().order_by('-date')
-    data = dict()
-    paginator = Paginator(messages_list, 2)
-    page = request.GET.get('page')
     try:
         messages = paginator.page(page)
         # print(articles.page_range)
@@ -35,104 +27,106 @@ def messages_list(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         messages = paginator.page(paginator.num_pages)
-
-    context = {
-        'title': 'Повідомлення',
-        'form': form,
-        'messages': messages,
-        'paginator': paginator,
-        'linkedin_login': linkedin_login,
-        }
-
     if request.is_ajax():
         data['html_messages'] = render_to_string('partial_messages_list.html',
                                                  {'messages': messages},
                                                  request=request)
+        return data
+    return context.update({'messages': messages})
 
-        data['html_page'] = render_to_string('partial_massage_pages.html',
-                                             {'messages': messages,
-                                              'paginator': paginator},
-                                             request=request)
-        return JsonResponse(data)
+
+def save_message_form(request, form, template_form):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            if form.instance.id:
+                message = form.save()
+                data['html_message'] = render_to_string('partial_message.html',
+                                                        {"message": message},
+                                                        request=request)
+            else:
+                message = form.save(commit=False)
+                message.user = request.user
+                message.save()
+
+                form = MessageForm()
+                messages_page(request, data, Message, 2)
+
+            data['form_is_valid'] = True
+
+        else:
+            data['form_is_valid'] = False
+
+    data['html_form'] = render_to_string(template_form,
+                                         {'form': form},
+                                         request=request)
+    return JsonResponse(data)
+
+
+def enter_page(request):
+    return render(request, 'base.html')
+
+
+def messages_list(request):
+    data = dict()
+
+    user = request.user
+
+    try:
+        linkedin_login = user.social_auth.get(provider='linkedin-oauth2')
+    except (UserSocialAuth.DoesNotExist, AttributeError):
+        linkedin_login = None
+
+    form = MessageForm()
+
+    context = {
+        'title': 'Повідомлення',
+        'form': form,
+        'linkedin_login': linkedin_login,
+        }
+    content = messages_page(request, data, Message, 2, context)
+    if request.is_ajax():
+        return JsonResponse(content)
 
     return render(request, 'messages.html', context)
 
 
 def message_create(request):
-    data = dict()
-    form = MessageForm()
-
     if request.is_ajax() and request.method == 'POST' and request.user.is_authenticated():
         form = MessageForm(request.POST)
-
-        if form.is_valid():
-            message = form.save(commit=False)
-            message.user = request.user
-            message.save()
-
-            form = MessageForm()
-            messages = Message.objects.all().order_by('-date')
-            data['html_messages'] = render_to_string('partial_messages_list.html',
-                                                     {"messages": messages},
-                                                     request=request)
-            data['form_is_valid'] = True
-
-        else:
-            data['form_is_valid'] = False
-
-    data['html_form'] = render_to_string('partial_message_form.html',
-                                         {'form': form},
-                                         request=request)
-    return JsonResponse(data)
+    else:
+        form = MessageForm()
+    return save_message_form(request, form, 'partial_message_form.html')
 
 
 def message_update(request, id=None):
-    data = dict()
     message = get_object_or_404(Message, id=id)
 
     if request.is_ajax() and request.method == 'POST' and request.user == message.user:
         form = MessageForm(request.POST, instance=message)
-
-        if form.is_valid():
-            message = form.save()
-
-            data['html_message'] = render_to_string('partial_message.html',
-                                                    {"message": message},
-                                                    request=request)
-            data['form_is_valid'] = True
-
-        else:
-            data['form_is_valid'] = False
-
     else:
         form = MessageForm(instance=message)
-
-    data['html_form'] = render_to_string('partial_message_update.html',
-                                         {'form': form},
-                                         request=request)
-    return JsonResponse(data)
+    return save_message_form(request, form, 'partial_message_update.html')
 
 
 def message_delete(request, id=None):
-    message = get_object_or_404(Message, id=id)
     data = dict()
+    message = get_object_or_404(Message, id=id)
+
     if request.is_ajax() and request.method == 'POST' and request.user == message.user:
         data['html_message_id'] = message.id
         message.delete()
         data['form_is_valid'] = True
+        data['comment_delete'] = True
+        page = request.GET.get('page')
+        data['del_page'] = page
+        messages_page(request, data, Message, 2)
 
     else:
         context = {'message': message}
         data['html_form'] = render_to_string('partial_message_delete.html',
                                              context, request=request)
     return JsonResponse(data)
-
-
-# from social.apps.django_app.default.models import UserSocialAuth
-# def test(request):
-#     user = request.user
-#     social_user = user.social_auth.get(provider='linkedin-oauth2')
-#     return render(request, "test.html", {'content': social_user})
 
 
 

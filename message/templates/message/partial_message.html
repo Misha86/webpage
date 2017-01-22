@@ -1,14 +1,19 @@
+
 <div id="partial-message-{{ message.id }}">
     <div class="message col-md-12" data-id="{{ message.id }}">
         <blockquote>
+         <p>
 
             {% if message.comments %}
+
                 <span class="caret caret-toggle"></span>
+
             {% endif %}
 
             <strong>({{ message.date|date:"d M Y"}}p.)</strong>
 
             <em> {{ message.text }}</em>
+        </p>
         </blockquote>
     </div>
     <div class="col-md-12">
@@ -44,7 +49,8 @@
                     {% if request.user !=  message.user %} data-toggle="tooltip"
                     data-original-title="Дане повідомлення створене не Вами! " disabled="disabled"
                     {% endif %}>
-                <span class="glyphicon glyphicon-pencil"></span> Змінити повідомлення
+                <span class="glyphicon glyphicon-pencil"></span>
+                Змінити повідомлення
             </button>
 
             <button type="button" class="btn btn-danger btn-sm js-delete-message"
@@ -52,17 +58,18 @@
                     {% if request.user !=  message.user %} data-toggle="tooltip"
                     data-original-title="Дане повідомлення створене не Вами! " disabled="disabled"
                     {% endif %}>
-                <span class="glyphicon glyphicon-trash"></span> Видалити повідомлення
+                <span class="glyphicon glyphicon-trash"></span>
+                Видалити повідомлення
             </button>
 
         </p>
         <hr/>
     </div>
 
+    <div id="comments-for-message-id-{{ message.id }}" class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1" hidden="hide">
 
-    <div id="comments-for-message-id-{{ message.id }}" class="col-md-offset-1" hidden="hide">
-
-        {% include "partial_comments_list.html" %}
+            {% include "partial_comments_list.html" %}
 
     </div>
+
 </div>

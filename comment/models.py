@@ -40,3 +40,7 @@ class Comment(models.Model):
     def children(self):
         instance = self
         return Comment.objects.filter(parent=instance)
+
+    def has_parent_children(self):
+        instance = self
+        return hasattr(instance.parent, 'children')

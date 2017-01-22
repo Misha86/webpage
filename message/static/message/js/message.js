@@ -31,30 +31,64 @@ $.ajaxSetup({
 });
 
 
+
+var successMessageCreate = function (data) {
+    $("#form-massage").html(data.html_form)
+    if (data.form_is_valid) {
+        $("#message-list").html(data.html_messages)
+    }
+};
+
+var errorMessage = function(xhr, errmsg, err) {
+    $('#result').html("<div class='container' data-alert><h1>Oops! We have encountered an error: " + xhr.status + errmsg +
+    "</h1><a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+    alert("Oops! We have encountered an error: " + err + " " + xhr.status + " " + errmsg )
+    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+};
+
+
+// ajax pagination
+$("#message-list").on('click', ".pagination li a", function(event){
+    event.preventDefault();
+    var page = $(this);
+    $.ajax({
+        async: true,
+        url:  "/list/" + page.attr("href"),
+        type: 'get',
+        dataType: 'json',
+
+        success: function (data) {
+            console.log(page.text())
+            $("#message-list").html(data.html_messages);
+        },
+
+        error: error
+    });
+});
+
+
 $(function () {
     $('#create-message').on('submit', '#form-massage', function(event){
         event.preventDefault();
         var form = $(this);
-        //console.log(form)
         $.ajax({
             url: form.attr("action"),
             type: form.attr("method"),
             data: form.serialize(),
             dataType: 'json',
 
-            success: successForCreate,
+            success: successMessageCreate,
 
-            error : error
+            error : errorMessage
         });
 
     });
 
-    var messageList = $("#message-list")
+    var selectorBody = $("body");
 
-    messageList.on('click', '.js-update-message', function (event) {
+    var loadForm = function (event) {
         event.preventDefault();
         var btn = $(event.target);
-        //console.log(btn);
         $.ajax({
             url: btn.attr("data-url"),
             type: 'get',
@@ -63,118 +97,43 @@ $(function () {
                 $("#modal-comment").modal("show");
             },
             success: function (data) {
-                console.log(data);
                 $(".modal-content").html(data.html_form)
             },
-            error : error
+            error : errorMessage
         });
-    });
+    };
 
-    messageList.on('submit', '.js-message-form', function (event) {
+    var saveForm = function (event) {
         event.preventDefault();
         var form = $(event.target);
-        console.log(form.attr("action"));
+        var activePage = $("ul>li.active>a").text();
         $.ajax({
-            url: form.attr("action"),
+            url: form.attr("action")+'?page='+ activePage,
             type: form.attr("method"),
             data: form.serialize(),
             dataType: 'json',
 
             success: function (data) {
                 var id =form.attr('data-message-id');
-                console.log(id);
                 if (data.form_is_valid) {
                     $("#modal-comment").modal("hide");
-                    //$(`#partial-message-${id}`).html(data.html_message);
-                    $('#partial-message-' + id).html(data.html_message);
+                    if (data.comment_delete) {
+                        $("#message-list").html(data.html_messages);
+                    } else {
+                        $('#partial-message-' + id).replaceWith(data.html_message);
+                    }
                 } else {
                     $(".modal-content").html(data.html_form);
                 }
             },
 
-            error : error
+            error : errorMessage
         });
-    });
-
-    messageList.on('click', '.js-delete-message', function (event) {
-        event.preventDefault();
-        var btn = $(event.target);
-        console.log(btn);
-        $.ajax({
-            url: btn.attr("data-url"),
-            type: 'get',
-            dataType: 'json',
-            beforeSend: function () {
-                $("#modal-comment").modal("show");
-            },
-
-            success: function (data) {
-                console.log(data);
-                $(".modal-content").html(data.html_form)
-            },
-            error : error
-        });
-    });
-
-    messageList.on('submit', '.js-message-delete-form', function (event) {
-        event.preventDefault();
-        var form = $(event.target);
-        console.log(form.attr("action"));
-        $.ajax({
-            url: form.attr("action"),
-            type: form.attr("method"),
-            data: form.serialize(),
-            dataType: 'json',
-
-            success: function (data) {
-                console.log("message.id: ", data.html_message_id);
-                if (data.form_is_valid) {
-                    $("#partial-message-" + data.html_message_id).html('');
-                    $("#modal-comment").modal("hide");
-                }
-            },
-
-            error : error
-        });
-    });
-
-    // ajax pagination
-    $("#pages").on('click', ".pagination li a", function(event){
-        event.preventDefault();
-        var page = $(this);
-        console.log(page.text())
-        console.log(page.attr("href"))
-        $.ajax({
-            async: true,
-            url: '/list/' + page.attr("href"),
-            type: 'get',
-            //data: {
-            //    page : page.text()
-            //},
-            dataType: 'json',
-
-            success: function (data) {
-                console.log(data)
-                console.log($("#message-list"))
-                $("#message-list").html(data.html_messages)
-                $("#pages").html(data.html_page)
-            },
-
-            error: error
-        });
-    });
-
-    var successForCreate = function (data) {
-        $("#form-massage").html(data.html_form)
-        if (data.form_is_valid) {
-            $("#message-list").html(data.html_messages)
-        }
     };
 
-    var error = function(xhr, errmsg, err) {
-        $('#result').html("<div class='container' data-alert><h1>Oops! We have encountered an error: " + xhr.status + errmsg +
-        "</h1><a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-        alert("Oops! We have encountered an error: " + err + " " + xhr.status + " " + errmsg )
-        console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-    };
+    selectorBody.on('click', '.js-update-message', loadForm);
+    selectorBody.on('submit', '.js-message-form', saveForm);
+
+    selectorBody.on('click', '.js-delete-message', loadForm);
+    selectorBody.on('submit', '.js-message-delete-form', saveForm);
 });

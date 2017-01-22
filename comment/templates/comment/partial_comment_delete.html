@@ -1,0 +1,16 @@
+<form method="post" action="{% url 'comment:delete' comment.id %}" class="js-comment-delete-form">
+    {% csrf_token %}
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Підтвердження видалення коментаря</h4>
+    </div>
+    <div class="modal-body">
+        <p class="lead">Ви впевнені, що хочете видалити коментар створений <strong>{{ comment.date }}.</strong>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+        <button type="submit" class="btn btn-danger">Видалити</button>
+    </div>
+</form>

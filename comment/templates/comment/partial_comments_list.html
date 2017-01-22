@@ -1,59 +1,7 @@
 {% for comment in message.comments %}
 
-    <div class="comment" data-id="{{ comment.id }}">
-        <p>
-            {% if comment.children %}
-                <span class="caret caret-toggle"></span>
-            {% endif %}
-
-            {{ comment.text }}
-        </p>
-
-        <br>
-
-        <p><strong>Створений:</strong> {{ comment.date|timesince }} тому |
-            <strong>Кількість коментарів:</strong> <em>{{ comment.children.count }} </em> |
-           <strong>Користувач: </strong>
-            {% if not comment.user.is_superuser %}
-                {{ comment.user.get_full_name }}
-            {% else %}
-                <strong>Admin</strong>
-            {% endif %}
-        </p>
-
-    </div>
-
-    <div class="col-md-12">
-
-        <p>
-            <button type="button" data-comment-id="{{ comment.id }}" data-id="{{ message.id }}"
-                    data-form="{% url "comment:create" %}" class="btn btn-primary js-create-comment"
-                     {% if not request.user.is_authenticated %} data-toggle="tooltip"
-                    data-original-title="Ви не авторизувалися на сайті!"
-                    {% endif %}>
-                <span class="glyphicon glyphicon-plus"></span>
-                коментувати
-            </button>
-
-        </p>
-        <hr/>
-
-    </div>
-
-    <div id="comments-for-comment-id-{{ comment.id }}" class="col-md-offset-1" hidden="hide">
-        {% for chield in comment.children %}
-
-            <p> - {{ chield.text }}</p>
-
-            <br/>
-
-            <p><strong>Створений:</strong> {{ chield.date|timesince }} тому |
-                <strong>Користувач:</strong> {{ chield.user.get_full_name }}
-            </p>
-
-            <hr/>
-
-        {% endfor %}
-    </div>
+    {% include "partial_comment.html" %}
 
 {% endfor %}
+
+
