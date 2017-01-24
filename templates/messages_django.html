@@ -1,0 +1,10 @@
+
+{% if message_for_django %}
+        {% for message in message_for_django %}
+            <div class="has-{{ message.extra_tags }}">
+                <label class="control-label">
+                    <p><em>{{ message }}</em></p>
+                </label>
+            </div>
+        {% endfor %}
+{% endif %}

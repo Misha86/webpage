@@ -1,6 +1,6 @@
 
 <div id="partial-message-{{ message.id }}">
-    <div class="message col-md-12" data-id="{{ message.id }}">
+    <div class="message" data-id="{{ message.id }}">
         <blockquote>
          <p>
 
@@ -16,7 +16,7 @@
         </p>
         </blockquote>
     </div>
-    <div class="col-md-12">
+    <div>
         <p>
             <strong>Кількість коментарів: </strong>
             <em>  {{ message.comments.count }}</em>
@@ -44,19 +44,20 @@
                 коментувати
             </button>
 
-            <button type="button" class="btn btn-warning btn-sm js-update-message"
+            <button data-id="{{ message.id }}" type="button" class="btn btn-warning btn-sm js-update-message"
                     data-url="{% url 'message:update' message.id %}"
                     {% if request.user !=  message.user %} data-toggle="tooltip"
-                    data-original-title="Дане повідомлення створене не Вами! " disabled="disabled"
+                    data-original-title="Дане повідомлення створене не Вами! "
                     {% endif %}>
                 <span class="glyphicon glyphicon-pencil"></span>
                 Змінити повідомлення
             </button>
 
-            <button type="button" class="btn btn-danger btn-sm js-delete-message"
+            <button data-id="{{ message.id }}" type="button" class="btn btn-danger btn-sm js-delete-message"
                     data-url="{% url 'message:delete' message.id %}"
                     {% if request.user !=  message.user %} data-toggle="tooltip"
-                    data-original-title="Дане повідомлення створене не Вами! " disabled="disabled"
+                    data-original-title="Дане повідомлення створене не Вами! "
+{#                    disabled="disabled"#}
                     {% endif %}>
                 <span class="glyphicon glyphicon-trash"></span>
                 Видалити повідомлення

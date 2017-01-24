@@ -37,6 +37,11 @@ var successMessageCreate = function (data) {
     if (data.form_is_valid) {
         $("#message-list").html(data.html_messages)
     }
+    if (data.html_messages_django) {
+        var messagesDjango = $("#messages_django");
+        messagesDjango.html(data.html_messages_django);
+        messagesDjango.find("div[class^='has-']").fadeOut(3500)
+    }
 };
 
 var errorMessage = function(xhr, errmsg, err) {
@@ -89,15 +94,29 @@ $(function () {
     var loadForm = function (event) {
         event.preventDefault();
         var btn = $(event.target);
+        var id = btn.attr("data-id");
         $.ajax({
             url: btn.attr("data-url"),
             type: 'get',
             dataType: 'json',
-            beforeSend: function () {
-                $("#modal-comment").modal("show");
-            },
+            //beforeSend: function () {
+            //    $("#modal-comment").modal("show");
+            //},
             success: function (data) {
-                $(".modal-content").html(data.html_form)
+                if (data.html_messages_django) {
+                    var messagesDjango = $("#partial-message-" + id);
+                    var attr = messagesDjango.prev().attr('class');
+
+                    if (attr == "has-error") {
+                        messagesDjango.prev().replaceWith(data.html_messages_django);
+                    } else {
+                        messagesDjango.before(data.html_messages_django);
+                    } messagesDjango.prev().fadeOut(3500);
+
+                } else {
+                    $("#modal-comment").modal("show");
+                    $(".modal-content").html(data.html_form)
+                }
             },
             error : errorMessage
         });
@@ -115,14 +134,37 @@ $(function () {
 
             success: function (data) {
                 var id =form.attr('data-message-id');
-                if (data.form_is_valid) {
+                if (data.form_is_valid || data.message_delete) {
                     $("#modal-comment").modal("hide");
-                    if (data.comment_delete) {
+                    // chandge message into site
+                    if (data.message_delete) {
+                        // for delete message
                         $("#message-list").html(data.html_messages);
                     } else {
+                        // for update message
                         $('#partial-message-' + id).replaceWith(data.html_message);
                     }
+
+                    // add message from django
+                    if (data.html_messages_django) {
+                        var messagesDjango;
+                        if (data.message_delete ){
+                            // selector for django message after delete message
+                            messagesDjango = $(".navbar>div.container>div>h3");
+                        } else {
+                            // dselector for django message when success update message or error
+                            messagesDjango = $("#partial-message-" + id);
+                        }
+                        var attr = messagesDjango.prev().attr('class');
+                        if (attr == "has-error" || attr =="has-success") {
+                            messagesDjango.prev().replaceWith(data.html_messages_django);
+                        } else {
+                            messagesDjango.before(data.html_messages_django);
+                        } messagesDjango.prev().fadeOut(3500);
+                    }
+
                 } else {
+                    // show form when method GET or form is invalid
                     $(".modal-content").html(data.html_form);
                 }
             },

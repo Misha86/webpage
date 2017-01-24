@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # install apps
     'social.apps.django_app.default',
+    config('ssl'),
     # other django apps
     'django.contrib.humanize',
     # my apps
