@@ -138,25 +138,19 @@ def message_create(request):
 
 @is_message_user
 def message_update(request, message, id=None):
-    # message = get_object_or_404(Message, id=id)
 
-    # if request.user == message.user:
     if request.is_ajax() and request.method == 'POST':
         form = MessageForm(request.POST, instance=message)
     else:
         form = MessageForm(instance=message)
-    # else:
-    #     messages_django.error(request, "Дане повідомлення створене не Вами!", extra_tags='error')
-    #     form = None
+
     return save_message_form(request, form, 'partial_message_update.html')
 
 
 @is_message_user
 def message_delete(request, message, id=None):
     data = dict()
-    # message = get_object_or_404(Message, id=id)
 
-    # if request.user == message.user:
     if request.is_ajax() and request.method == 'POST':
         data['html_message_id'] = message.id
         message.delete()
@@ -173,8 +167,6 @@ def message_delete(request, message, id=None):
         context = {'message': message}
         data['html_form'] = render_to_string('partial_message_delete.html',
                                              context, request=request)
-    # else:
-    #     create_django_messages(request, data, "Дане повідомлення створене не Вами!", message_level=40, tag='error')
 
     return JsonResponse(data)
 
