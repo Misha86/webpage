@@ -44,11 +44,23 @@ var successMessageCreate = function (data) {
     }
 };
 
-var errorMessage = function(xhr, errmsg, err) {
+var error = function(xhr, errmsg, err) {
     $('#result').html("<div class='container' data-alert><h1>Oops! We have encountered an error: " + xhr.status + errmsg +
     "</h1><a href='#' class='close'>&times;</a></div>"); // add the error to the dom
     alert("Oops! We have encountered an error: " + err + " " + xhr.status + " " + errmsg )
     console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+};
+
+
+var addDjangoMessage = function(data, selector){
+    var attr = selector.prev().attr('class');
+
+    if (attr == "has-error" || attr =="has-success") {
+        selector.prev().replaceWith(data.html_messages_django);
+    } else {
+        selector.before(data.html_messages_django);
+    } selector.prev().fadeOut(3500);
+
 };
 
 
@@ -84,7 +96,7 @@ $(function () {
 
             success: successMessageCreate,
 
-            error : errorMessage
+            error : error
         });
 
     });
@@ -105,20 +117,15 @@ $(function () {
             success: function (data) {
                 if (data.html_messages_django) {
                     var messagesDjango = $("#partial-message-" + id);
-                    var attr = messagesDjango.prev().attr('class');
 
-                    if (attr == "has-error") {
-                        messagesDjango.prev().replaceWith(data.html_messages_django);
-                    } else {
-                        messagesDjango.before(data.html_messages_django);
-                    } messagesDjango.prev().fadeOut(3500);
+                    addDjangoMessage(data, messagesDjango)
 
                 } else {
                     $("#modal-comment").modal("show");
                     $(".modal-content").html(data.html_form)
                 }
             },
-            error : errorMessage
+            error : error
         });
     };
 
@@ -155,12 +162,8 @@ $(function () {
                             // dselector for django message when success update message or error
                             messagesDjango = $("#partial-message-" + id);
                         }
-                        var attr = messagesDjango.prev().attr('class');
-                        if (attr == "has-error" || attr =="has-success") {
-                            messagesDjango.prev().replaceWith(data.html_messages_django);
-                        } else {
-                            messagesDjango.before(data.html_messages_django);
-                        } messagesDjango.prev().fadeOut(3500);
+
+                        addDjangoMessage(data, messagesDjango)
                     }
 
                 } else {
@@ -169,7 +172,7 @@ $(function () {
                 }
             },
 
-            error : errorMessage
+            error : error
         });
     };
 

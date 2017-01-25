@@ -32,7 +32,7 @@
                     data-id="{% if message %}{{ message.id }}{% else %}{{ comment.object_id }}{% endif %}"
                     data-form="{% url "comment:create" %}" class="btn btn-primary js-create-comment"
                     {% if not request.user.is_authenticated %} data-toggle="tooltip"
-                    data-original-title="Ви не авторизувалися на сайті!"
+                    data-original-title="Ви не авторизувалися на сайті!" {# disabled="disabled" #}
                     {% endif %}>
                 <span class="glyphicon glyphicon-plus"></span>
                 коментувати
@@ -40,10 +40,10 @@
 
             <button type="button" data-comment-id="{{ comment.id }}"
                     data-id="{% if message %}{{ message.id }}{% else %}{{ comment.object_id }}{% endif %}"
-                    class="btn btn-warning btn-sm js-update-comment"
+                    class="btn btn-success btn-sm js-update-comment"
                     data-form="{% url 'comment:update' comment.id %}"
                     {% if request.user !=  comment.user %} data-toggle="tooltip"
-                    data-original-title="Даний коментар створене не Вами! " disabled="disabled"
+                    data-original-title="Даний коментар створене не Вами! " {# disabled="disabled" #}
                     {% endif %}>
                 <span class="glyphicon glyphicon-pencil"></span>
                 Змінити
@@ -54,7 +54,7 @@
                     class="btn btn-danger btn-sm js-delete-comment"
                     data-form="{% url 'comment:delete' comment.id %}"
                     {% if request.user !=  comment.user %} data-toggle="tooltip"
-                    data-original-title="Дане повідомлення створене не Вами! " disabled="disabled"
+                    data-original-title="Дане повідомлення створене не Вами! " {# disabled="disabled" #}
                     {% endif %}>
                 <span class="glyphicon glyphicon-trash"></span>
                 Видалити

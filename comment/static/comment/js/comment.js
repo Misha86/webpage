@@ -17,50 +17,53 @@ var selectorBody = $('body');
 selectorBody.on('click', '.message', fadeToggleComments);
 selectorBody.on('click', '.comment', fadeToggleComments);
 
-var successCommentCreate = function(objectName, objectId, dataComment, dataCount){
+
+var successCommentCreate = function(objectName, objectId, data){
+    var commentsCount;
     var commentIdSelector = $("#comments-for-" + objectName + "-id-" + objectId);
     var caretCountAdd = commentIdSelector.siblings("div[data-id='" + objectId + "']");
 
-    commentIdSelector.prepend(dataComment);
+    commentIdSelector.prepend(data.html_comments);
     commentIdSelector.show();
     commentIdSelector.parents().show();
 
     if (objectName == 'message') {
-        caretCountAdd.next('div').find('p>em').first().text(dataCount);
+        caretCountAdd.next('div').find('p>em').first().text(data.message_comments_count);
+        commentsCount = data.message_comments_count;
     } else {
-        caretCountAdd.find('p>em').text(dataCount);}
+        caretCountAdd.find('p>em').text(data.comment_comments_count);
+        commentsCount = data.comment_comments_count;
+    }
 
-    if (dataCount == '1' && caretCountAdd.find('p:first').find('span.caret').length == 0) {
+    if (commentsCount == '1' && caretCountAdd.find('p:first').find('span.caret').length == 0) {
         caretCountAdd.find('p:first').prepend("<span class='caret caret-toggle'></span>");}
 
     if (caretCountAdd.find(".caret-toggle").css("transform")) {
         caretCountAdd.find(".caret").toggleClass("caret-toggle");}
+
+    addDjangoMessage(data, commentIdSelector.find("div:first"));
 };
 
 var successCommentDelete = function (data, commentId, messageId) {
     var commentIdSelector = $(".comment-" + commentId);
+    var commentParentSelector;
     if (data.message_comments_count >= 0) {
-        var commentMessage = $(".message[data-id='" + messageId + "']" );
+        commentParentSelector = $(".message[data-id='" + messageId + "']" );
         if (data.message_comments_count == '0') {
-            commentMessage.find("blockquote>p>span").remove();
+            commentParentSelector.find("blockquote>p>span").remove();
         }
-        commentMessage.next('div').find('p>em').first().text(data.message_comments_count);
+        commentParentSelector.next('div').find('p>em').first().text(data.message_comments_count);
 
     } else {
-        var commentParent = $(".comment[data-id='" + data.comment_parent_id + "']" );
-        commentParent.find('p>em').first().text(data.comment_comments_count);
+        commentParentSelector = $(".comment[data-id='" + data.comment_parent_id + "']" );
+        commentParentSelector.find('p>em').first().text(data.comment_comments_count);
         if (data.comment_comments_count == 0) {
-            commentParent.find('p>span').remove();
+            commentParentSelector.find('p>span').remove();
         }
     }
     commentIdSelector.remove();
+    addDjangoMessage(data, commentParentSelector);
 };
-
-
-var error = function (xhr, errmsg, err) {
-    alert("Oops! We have encountered an error: " + err + " " + xhr.status + " " + errmsg)
-    console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-}
 
 
 $(function () {
@@ -81,15 +84,31 @@ $(function () {
             },
             type: 'get',
             dataType: 'json',
-            beforeSend: function () {
-                $("#modal-comment").modal("show");
-            },
+            //beforeSend: function () {
+            //    $("#modal-comment").modal("show");
+            //},
             success: function (data) {
-                var modalContent = $(".modal-content");
-                $("#modal-comment .modal-content").html(data.html_form);
-                modalContent.attr('data-comment-id', '');
-                modalContent.attr({'data-id': messageId, 'data-comment-id': commentId});
-            }
+                console.log(data)
+                if (data.html_messages_django) {
+                    var messagesDjango;
+                    if (commentId) {
+                        messagesDjango = $(".comment-" + commentId);
+                    } else {
+                        messagesDjango = $("#partial-message-" + messageId);
+                    }
+                    console.log(data.html_messages_django);
+
+                    addDjangoMessage(data, messagesDjango);
+
+                } else {
+                    $("#modal-comment").modal("show");
+                    var modalContent = $(".modal-content");
+                    modalContent.html(data.html_form);
+                    modalContent.attr('data-comment-id', '');
+                    modalContent.attr({'data-id': messageId, 'data-comment-id': commentId});
+                }
+            },
+            error: error
 
         })
     };
@@ -113,20 +132,25 @@ $(function () {
                     $("div[data-id='" + commentId + "']").find(".caret").toggleClass("caret-toggle");
                     if (data.comment_create) {
                         if (commentId == false) {
-                            successCommentCreate('message', messageId, data.html_comments, data.message_comments_count);
+                            successCommentCreate('message', messageId, data);
                         }
                         else {
-                            successCommentCreate('comment', commentId, data.html_comments, data.comment_comments_count);
+                            successCommentCreate('comment', commentId, data);
                         }
                         console.log(data.comment_create);
                     }
                     else if (data.comment_update) {
-                        $(".comment-" + commentId).replaceWith(data.html_comments);
+                        var partialComment = $(".comment-" + commentId);
+
+                        addDjangoMessage(data, partialComment);
+
+                        partialComment.replaceWith(data.html_comments);
                         console.log(data.comment_update);
                     }
                     else {
                         successCommentDelete(data, commentId, messageId);
                     }
+                    console.log(data.html_messages_django);
                 }
                 else {
                     $("#modal-comment .modal-content").html(data.html_form)

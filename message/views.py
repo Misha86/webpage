@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.shortcuts import render
 from message.forms import MessageForm
 from message.models import Message
 from django.template.loader import render_to_string
@@ -9,7 +8,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from social.apps.django_app.default.models import UserSocialAuth
 
 from django.contrib import messages as messages_django
-from functools import wraps
+
+from webpage.utils import check_user, render_django_message
 
 
 def messages_page(request, data, model, count, context=None):
@@ -38,7 +38,7 @@ def messages_page(request, data, model, count, context=None):
     return context.update({'messages': messages})
 
 
-def save_message_form(request, form, template_form):
+def save_message_form(request, form=None, template_form=None):
     data = dict()
 
     if request.method == 'POST':
@@ -63,29 +63,13 @@ def save_message_form(request, form, template_form):
         else:
             data['form_is_valid'] = False
 
-    message_for_django = messages_django.get_messages(request)
-    if message_for_django:
-        data['html_messages_django'] = render_to_string('messages_django.html',
-                                                        {'message_for_django': message_for_django},
-                                                        request=request)
+    render_django_message(request, data)
+
     if form:
         data['html_form'] = render_to_string(template_form,
                                              {'form': form},
                                              request=request)
     return JsonResponse(data)
-
-
-def is_message_user(func):
-    @wraps(func)
-    def inner(request, id=None, *args, **kwargs):
-        message = get_object_or_404(Message, id=id)
-        if request.user == message.user:
-            return func(request, message, id=None)
-        else:
-            messages_django.error(request, "Дане повідомлення створене не Вами!", extra_tags='error')
-            form = None
-            return save_message_form(request, form, 'partial_message_update.html')
-    return inner
 
 
 def create_django_messages(request, data, content, message_level, tag):
@@ -125,18 +109,21 @@ def messages_list(request):
 
 
 def message_create(request):
-    if request.is_ajax() and request.method == 'POST':
-        if request.user.is_authenticated():
+    form = MessageForm()
+    if request.user.is_authenticated():
+        if request.is_ajax() and request.method == 'POST':
             form = MessageForm(request.POST)
-        else:
-            messages_django.error(request, "Ви не авторизовані на сайті!", extra_tags='error')
-            form = MessageForm()
     else:
-        form = MessageForm()
+        messages_django.error(request, "Ви не авторизовані на сайті!", extra_tags='error')
+
     return save_message_form(request, form, 'partial_message_form.html')
 
 
-@is_message_user
+args_update_del = dict(model='message', error_message="Цей повідомлення створений не Вами!",
+                       func_save=save_message_form)
+
+
+@check_user(**args_update_del)
 def message_update(request, message, id=None):
 
     if request.is_ajax() and request.method == 'POST':
@@ -147,7 +134,7 @@ def message_update(request, message, id=None):
     return save_message_form(request, form, 'partial_message_update.html')
 
 
-@is_message_user
+@check_user(**args_update_del)
 def message_delete(request, message, id=None):
     data = dict()
 
@@ -161,7 +148,8 @@ def message_delete(request, message, id=None):
         data['del_page'] = page
 
         messages_page(request, data, Message, 2)
-        create_django_messages(request, data, "Ваше повідомлення видалено!", message_level=25, tag='success')
+        messages_django.success(request, "Ваше повідомлення видалено!", extra_tags='success')
+        render_django_message(request, data)
 
     else:
         context = {'message': message}
