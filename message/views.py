@@ -72,14 +72,6 @@ def save_message_form(request, form=None, template_form=None):
     return JsonResponse(data)
 
 
-def create_django_messages(request, data, content, message_level, tag):
-    messages_django.add_message(request, message_level, content, extra_tags=tag)
-    data['html_messages_django'] = render_to_string('messages_django.html',
-                                                    {'message_for_django': messages_django.get_messages(request)},
-                                                    request=request)
-    return data
-
-
 def enter_page(request):
     return render(request, 'base.html')
 

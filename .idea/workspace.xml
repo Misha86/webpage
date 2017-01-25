@@ -38,25 +38,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/message/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-31.642857" vertical-offset="406" max-vertical-offset="2448">
-              <caret line="121" column="22" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="22" />
+            <state vertical-scroll-proportion="2.2179263" vertical-offset="608" max-vertical-offset="2312">
+              <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
                 <element signature="e#522#1413#0" expanded="false" />
-                <element signature="e#3147#3182#0" expanded="false" />
-                <element signature="e#3217#3758#0" expanded="false" />
+                <element signature="e#2716#2751#0" expanded="false" />
+                <element signature="e#2786#3327#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/comment/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6713533" vertical-offset="791" max-vertical-offset="2244">
+            <state vertical-scroll-proportion="0.0" vertical-offset="689" max-vertical-offset="2244">
               <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
@@ -148,8 +148,8 @@
         <option value="$PROJECT_DIR$/message/static/message/js/message.js" />
         <option value="$PROJECT_DIR$/comment/static/comment/js/comment.js" />
         <option value="$PROJECT_DIR$/webpage/utils.py" />
-        <option value="$PROJECT_DIR$/message/views.py" />
         <option value="$PROJECT_DIR$/comment/views.py" />
+        <option value="$PROJECT_DIR$/message/views.py" />
       </list>
     </option>
   </component>
@@ -606,8 +606,8 @@
           <folding>
             <element signature="e#0#35#0" expanded="true" />
             <element signature="e#522#1413#0" expanded="false" />
-            <element signature="e#3147#3182#0" expanded="false" />
-            <element signature="e#3217#3758#0" expanded="false" />
+            <element signature="e#2716#2751#0" expanded="false" />
+            <element signature="e#2786#3327#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -643,8 +643,8 @@
           <folding>
             <element signature="e#0#35#0" expanded="true" />
             <element signature="e#522#1413#0" expanded="false" />
-            <element signature="e#3147#3182#0" expanded="false" />
-            <element signature="e#3217#3758#0" expanded="false" />
+            <element signature="e#2716#2751#0" expanded="false" />
+            <element signature="e#2786#3327#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -980,25 +980,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/message/views.py">
+    <entry file="file://$PROJECT_DIR$/comment/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-31.642857" vertical-offset="406" max-vertical-offset="2448">
-          <caret line="121" column="22" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="689" max-vertical-offset="2244">
+          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#522#1413#0" expanded="false" />
-            <element signature="e#3147#3182#0" expanded="false" />
-            <element signature="e#3217#3758#0" expanded="false" />
+            <element signature="e#0#64#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/comment/views.py">
+    <entry file="file://$PROJECT_DIR$/message/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6713533" vertical-offset="791" max-vertical-offset="2244">
-          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+        <state vertical-scroll-proportion="2.2179263" vertical-offset="608" max-vertical-offset="2312">
+          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
           <folding>
-            <element signature="e#0#64#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#522#1413#0" expanded="false" />
+            <element signature="e#2716#2751#0" expanded="false" />
+            <element signature="e#2786#3327#0" expanded="false" />
           </folding>
         </state>
       </provider>
