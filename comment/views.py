@@ -59,12 +59,12 @@ def save_comment_form(request, form=None, template=None):
         else:
             data['form_is_valid'] = False
 
-    context = {'form': form}
-
     render_django_message(request, data)
 
     if form:
-        data['html_form'] = render_to_string(template, context, request=request)
+        data['html_form'] = render_to_string(template,
+                                             {'form': form},
+                                             request=request)
 
     return JsonResponse(data)
 
@@ -122,4 +122,5 @@ def comment_delete(request, comment=None, id=None):
         data['html_form'] = render_to_string('partial_comment_delete.html',
                                              context, request=request)
     render_django_message(request, data)
+
     return JsonResponse(data)
