@@ -86,12 +86,30 @@ def messages_list(request):
     except (UserSocialAuth.DoesNotExist, AttributeError):
         linkedin_login = None
 
+    try:
+        facebook_login = user.social_auth.get(provider='facebook')
+    except (UserSocialAuth.DoesNotExist, AttributeError):
+        facebook_login = None
+
+    try:
+        vk_login = user.social_auth.get(provider='vk-oauth2')
+    except (UserSocialAuth.DoesNotExist, AttributeError):
+        vk_login = None
+
+    try:
+        odnoklassniki_login = user.social_auth.get(provider='odnoklassniki-oauth2')
+    except (UserSocialAuth.DoesNotExist, AttributeError):
+        odnoklassniki_login = None
+
     form = MessageForm()
 
     context = {
         'title': 'Повідомлення',
         'form': form,
         'linkedin_login': linkedin_login,
+        'facebook_login': facebook_login,
+        'vk_login': vk_login,
+        'odnoklassniki_login': odnoklassniki_login,
         }
     content = messages_page(request, data, Message, 2, context)
     if request.is_ajax():
@@ -149,10 +167,6 @@ def message_delete(request, message, id=None):
                                              context, request=request)
 
     return JsonResponse(data)
-
-
-
-
 
 
 

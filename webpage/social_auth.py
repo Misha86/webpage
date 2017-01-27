@@ -4,6 +4,7 @@ from decouple import config
 
 # Модель пользователя. Здесь стандартная.
 SOCIAL_AUTH_USER_MODEL = 'auth.User'
+import social.backends.odnoklassniki
 
 import social.pipeline.social_auth
 AUTHENTICATION_BACKENDS = (
@@ -34,25 +35,26 @@ SOCIAL_AUTH_PIPELINE = (
 # Для фейсбука, мы запрашиваем поля, и указываем локаль, вот таким вот образом.
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'locale': 'ru_RU',
-    'fields': 'id, name, email, picture',
+    'fields': 'id, name, email, picture, link',
     }
 
 # А так мы запрашиваем дополнительные разрешения.
 # Разрешения спрашиваются с первым запросом (authorize).
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = ['picture']
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = ['picture', "link"]
 
 
 # VK #
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 # Чтобы запросить дополнительные поля, нужно указать их в EXTRA_DATA,
 # специфика этого бекэнда.
-SOCIAL_AUTH_VK_OAUTH2_EXTRA_DATA = ['photo_200_orig']
+SOCIAL_AUTH_VK_OAUTH2_EXTRA_DATA = ['photo_50', 'city', 'domain']
 
 
 # ODNOKLASSNIKI #
 SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_SCOPE = ['email']
-SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_EXTRA_DATA = ['email', ]
+SOCIAL_AUTH_ODNOKLASSNIKI_OAUTH2_EXTRA_DATA = [('email', 'email'),
+                                               ('pic_1', 'photo')]
 
 
 # LINKEDIN #

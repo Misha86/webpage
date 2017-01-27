@@ -51,27 +51,48 @@
                                      data-placement="bottom"/>
                             </a>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                            <div class="nav navbar-nav navbar-right">
-                                <h4>
-                                    <strong>
-                                        <a href="{% url 'logout' %}?next={{ request.path }}">Вийти</a>
-                                    </strong>
-                                </h4>
-                            </div>
+
+                    {% elif facebook_login %}
+
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
+                            <a href="{{ facebook_login.extra_data.link }}">
+                                <img class="img-rounded" style="float: right;" src="{{ facebook_login.extra_data.picture.data.url }}"
+                                     data-toggle="tooltip" data-original-title="{{ request.user.get_full_name }}"
+                                     data-placement="bottom"/>
+                            </a>
                         </div>
 
-                    {% else %}
+                    {% elif vk_login %}
 
-                        <div class="col-md-6 nav navbar-nav navbar-right">
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
+                            <a href="http://vk.com/{{ vk_login.extra_data.domain }}">
+                                <img class="img-rounded" style="float: right;" src="{{ vk_login.extra_data.photo_50 }}"
+                                     data-toggle="tooltip" data-original-title="{{ request.user.get_full_name }}"
+                                     data-placement="bottom"/>
+                            </a>
+                        </div>
+
+                    {% elif odnoklassniki_login %}
+
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
+                            <a href="https://ok.ru/profile/{{ odnoklassniki_login.uid}}">
+                                <img class="img-rounded" style="float: right;" src="{{ odnoklassniki_login.extra_data.photo }}"
+                                     data-toggle="tooltip" data-original-title="{{ request.user.get_full_name }}"
+                                     data-placement="bottom"/>
+                            </a>
+                        </div>
+
+                    {% endif %}
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                        <div class="nav navbar-nav navbar-right">
                             <h4>
                                 <strong>
                                     <a href="{% url 'logout' %}?next={{ request.path }}">Вийти</a>
                                 </strong>
                             </h4>
                         </div>
-
-                    {% endif %}
+                    </div>
 
                 </div>
 
@@ -110,11 +131,11 @@
     </div>
 
     <!-- THE MODAL WE WILL BE USING -->
-<div id="modal-comment" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div id="modal-comment" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
